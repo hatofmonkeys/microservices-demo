@@ -1,5 +1,25 @@
 {
 	"ImportPath": "github.com/hatofmonkeys/microservices-demo/accept",
 	"GoVersion": "go1.3",
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "github.com/cloudfoundry-community/go-cfenv",
+			"Comment": "v1.3-15-gdb26cf7",
+			"Rev": "db26cf7b4a1a562641392e8455975dda9f0f90d0"
+		},
+		{
+			"ImportPath": "github.com/mitchellh/mapstructure",
+			"Rev": "740c764bc6149d3f1806231418adb9f52c11bcbf"
+		},
+		{
+			"ImportPath": "gopkg.in/bufio.v1",
+			"Comment": "v1",
+			"Rev": "567b2bfa514e796916c4747494d6ff5132a1dfce"
+		},
+		{
+			"ImportPath": "gopkg.in/redis.v2",
+			"Comment": "v2.2",
+			"Rev": "7b28e6f9d2a9ea4fcb7bdba70149309e97e02c3e"
+		}
+	]
 }
