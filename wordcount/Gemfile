@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'rake'
+gem 'json'
+gem 'redis'
+gem 'mongo'
+ruby '2.0.0'

@@ -1,0 +1,30 @@
+require 'json'
+require 'redis'
+require 'mongo'
+
+desc 'Process some incoming words from Redis'
+task 'process' do
+	redis_service = JSON.parse(ENV['VCAP_SERVICES'])["redis"]
+  credentials = redis_service.first["credentials"]
+  redis = Redis.new(:host => credentials["hostname"], :port => credentials["port"])
+
+	mongo_service = JSON.parse(ENV['VCAP_SERVICES'])["mongo"]
+  credentials = mongo.first["credentials"]
+  mongo = Mongo::MongoClient.new(credentials["hostname"], credentials["port"]).db('worddb')['words']
+
+  loop do 
+		while word = redis.lpop('words') do
+			#process
+			puts 'Found a word! Processing: ' + word
+			doc = mongo.find("word" => word).to_a.first
+			unless doc = mongo.find("word" => word).to_a.first then
+				#insert
+				mongo.insert({"word" => word, "count" => 1})
+			else
+				#update
+				mongo.update({"_id" => doc["_id"]}, {"$set" => {"count" => doc["count"] + 1}})
+			end
+		end
+		sleep 1
+  end
+end
