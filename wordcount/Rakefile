@@ -9,7 +9,7 @@ task 'process' do
   redis = Redis.new(:host => credentials["hostname"], :port => credentials["port"])
 
 	mongo_service = JSON.parse(ENV['VCAP_SERVICES'])["mongo"]
-  credentials = mongo.first["credentials"]
+  credentials = mongo_service.first["credentials"]
   mongo = Mongo::MongoClient.new(credentials["hostname"], credentials["port"]).db('worddb')['words']
 
   loop do 
