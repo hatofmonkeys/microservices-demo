@@ -1,0 +1,5 @@
+{
+	"ImportPath": "github.com/hatofmonkeys/microservices-demo/accept",
+	"GoVersion": "go1.3",
+	"Deps": []
+}
