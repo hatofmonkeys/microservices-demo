@@ -4,13 +4,11 @@ require 'mongo'
 
 desc 'Process some incoming words from Redis'
 task 'process' do
-	redis_service = JSON.parse(ENV['VCAP_SERVICES'])["redis"]
-  credentials = redis_service.first["credentials"]
-  redis = Redis.new(:host => credentials["hostname"], :port => credentials["port"])
+	redis_credentials = JSON.parse(ENV['VCAP_SERVICES'])["user-provided"].select { |service| service["name"] == "redis" }.first["credentials"]
+  redis = Redis.new(:host => redis_credentials["hostname"], :port => redis_credentials["port"])
 
-	mongo_service = JSON.parse(ENV['VCAP_SERVICES'])["mongo"]
-  credentials = mongo_service.first["credentials"]
-  mongo = Mongo::MongoClient.new(credentials["hostname"], credentials["port"]).db('worddb')['words']
+	mongo_credentials = JSON.parse(ENV['VCAP_SERVICES'])["user-provided"].select { |service| service["name"] == "mongo" }.first["credentials"]
+  mongo = Mongo::MongoClient.new(mongo_credentials["hostname"], mongo_credentials["port"]).db('worddb')['words']
 
   loop do 
 		while word = redis.lpop('words') do
