@@ -14,8 +14,8 @@ import (
 func redisClient() *redis.Client {
 	return redis.NewTCPClient(&redis.Options{
 		Addr:     getRedisAddr(),
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Password: getRedisPassword(),
+		DB:       0, // use default DB
 	})
 }
 
@@ -25,6 +25,14 @@ func getRedisAddr() string {
 		panic(err)
 	}
 	return redis.Credentials["hostname"] + ":" + redis.Credentials["port"]
+}
+
+func getRedisPassword() string {
+	redis, err := getServices().WithName("redis")
+	if err != nil {
+		panic(err)
+	}
+	return redis.Credentials["password"]
 }
 
 func getServices() *cfenv.Services {
